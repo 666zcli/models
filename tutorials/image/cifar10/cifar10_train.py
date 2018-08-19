@@ -144,9 +144,11 @@ def train():
     #      raise RuntimeError('Some variables are not matched!!!')
     #tf.add_to_collection('mytrainable_list', mytrainable_list)
 
-    f1_conv1 = tf.sign(conv1_weights + conv1_quan) * (conv1_weights + conv1_quan)
-    f2_conv1 = tf.sign(conv1_weights) * conv1_weights
-    f3_conv1 = tf.sign(conv1_weights - conv1_quan) * (conv1_weights - conv1_quan)
+    f1_conv1 = tf.sign(conv1_weights + 2*conv1_quan) * (conv1_weights + 2*conv1_quan)
+    f2_conv1 = tf.sign(conv1_weights + conv1_quan) * (conv1_weights + conv1_quan)
+    f3_conv1 = tf.sign(conv1_weights) * conv1_weights
+    f4_conv1 = tf.sign(conv1_weights - conv1_quan) * (conv1_weights - conv1_quan)
+    f5_conv1 = tf.sign(conv1_weights - 2*conv1_quan) * (conv1_weights - 2*conv1_quan)
 
     f1_conv2 = tf.sign(conv2_weights + conv2_quan) * (conv2_weights + conv2_quan)
     f2_conv2 = tf.sign(conv2_weights) * conv2_weights
@@ -164,8 +166,11 @@ def train():
     f2_softmax_linear = tf.sign(softmax_linear_weights) * softmax_linear_weights
     f3_softmax_linear = tf.sign(softmax_linear_weights - softmax_linear_quan) * (softmax_linear_weights - softmax_linear_quan)
 
-    conv1_regularizers = tf.where(tf.less(conv1_weights, -tf.divide(conv1_quan, 2.0)), f1_conv1,
-                                  tf.where(tf.less(conv1_weights, tf.divide(conv1_quan, 2.0)), f2_conv1, f3_conv1))
+    conv1_regularizers_n = tf.where(tf.less(conv1_weights, -tf.multiply(conv1_quan, 1.5)), f1_conv1,
+                                  tf.where(tf.less(conv1_weights, -tf.divide(conv1_quan, 2.0)), f2_conv1, f3_conv1))
+    conv1_regularizers_p = tf.where(tf.less(conv1_weights, tf.divide(conv1_quan, 2.0)), f3_conv1,
+                                  tf.where(tf.less(conv1_weights, tf.multiply(conv1_quan, 1.5)), f4_conv1, f5_conv1))
+    conv1_regularizers = tf.where(tf.less(conv1_regularizers_n, 0.0), conv1_regularizers_n, conv1_regularizers_p)
     conv2_regularizers = tf.where(tf.less(conv2_weights, -tf.divide(conv2_quan, 2.0)), f1_conv2,
                                   tf.where(tf.less(conv2_weights, tf.divide(conv2_quan, 2.0)), f2_conv2, f3_conv2))
     local3_regularizers = tf.where(tf.less(local3_weights, -tf.divide(local3_quan, 2.0)), f1_local3,
