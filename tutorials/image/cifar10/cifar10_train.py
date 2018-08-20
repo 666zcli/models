@@ -220,6 +220,9 @@ def train():
     local4_regularizers = tf.where(tf.less(local4_weights, -tf.multiply(local4_quan, 1.5)), f1_local4,
                                   tf.where(tf.less(local4_weights, -tf.divide(local4_quan, 2.0)), f2_local4, tf.where(tf.less(local4_weights, tf.divide(local4_quan, 2.0)), f3_local4,
                                   tf.where(tf.less(local4_weights, tf.multiply(local4_quan, 1.5)), f4_local4, f5_local4))))
+    softmax_linear_regularizers = tf.where(tf.less(softmax_linear_weights, -tf.multiply(softmax_linear_quan, 1.5)), f1_softmax_linear,
+                                  tf.where(tf.less(softmax_linear_weights, -tf.divide(softmax_linear_quan, 2.0)), f2_softmax_linear, tf.where(tf.less(softmax_linear_weights, tf.divide(softmax_linear_quan, 2.0)), f3_softmax_linear,
+                                  tf.where(tf.less(softmax_linear_weights, tf.multiply(softmax_linear_quan, 1.5)), f4_softmax_linear, f5_softmax_linear))))
     quantify_regularizers = (tf.reduce_sum(conv1_regularizers)+
                              tf.reduce_sum(conv2_regularizers)+
                              tf.reduce_sum(local3_regularizers)+
