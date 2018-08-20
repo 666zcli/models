@@ -212,7 +212,7 @@ def train():
     '''
     
     conv2_regularizers = tf.where(tf.less(conv2_weights, -tf.multiply(conv2_quan, 1.5)), f1_conv2,
-                                  tf.where(tf.less(conv2_weights, -tf.divide(conv2_quan, 2.0)), f2_conv2, tf.where(tf.less(conv2_weights, tf.divide(conv2_quan, 2.0)), f3_conv3,
+                                  tf.where(tf.less(conv2_weights, -tf.divide(conv2_quan, 2.0)), f2_conv2, tf.where(tf.less(conv2_weights, tf.divide(conv2_quan, 2.0)), f3_conv2,
                                   tf.where(tf.less(conv2_weights, tf.multiply(conv2_quan, 1.5)), f4_conv2, f5_conv2))))
     local3_regularizers = tf.where(tf.less(local3_weights, -tf.multiply(local3_quan, 1.5)), f1_local3,
                                   tf.where(tf.less(local3_weights, -tf.divide(local3_quan, 2.0)), f2_local3, tf.where(tf.less(local3_weights, tf.divide(local3_quan, 2.0)), f3_local3,
