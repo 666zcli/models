@@ -357,7 +357,7 @@ def train():
                 var_dic[_var_name] = _var
         saver = tf.train.Saver(var_dic)
 
-        saver.restore(sess, "./pretrain_baseline_0.872_lr_0.0002_wd_0.001_ti_500000/cifar10_train/model.ckpt-500000")
+        #saver.restore(sess, "./pretrain_baseline_0.872_lr_0.0002_wd_0.001_ti_500000/cifar10_train/model.ckpt-500000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_aL1/cifar10_train/model.ckpt-150000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_Bernoulli/cifar10_train/model.ckpt-150000")
@@ -372,7 +372,7 @@ def train():
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local3_local4_0.004_lr_0.0001_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local3_local4_0.008_lr_0.00005_ti_121000_Bernoulli_v3/cifar10_train/model.ckpt-121000")
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_121000_Bernoulli_v3/cifar10_train/model.ckpt-121000")
-        #saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
+        saver.restore(sess,".//home/zl198/github/users/666zcli/models/tutorials/image/cifar10/Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse_v1/cifar10_train/model.ckpt-150000")
         #saver.restore(sess,"./Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-300000.meta")
         
         # saver.restore(sess, "./Adam_finetune_freeze_conv1_conv2_0.005_lr_0.0001_ti_121000_Bernoulli/cifar10_train/model.ckpt-121000")
