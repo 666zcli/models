@@ -102,17 +102,17 @@ def train():
     # local3_quan = tf.constant(0.04)
     # local4_quan = tf.constant(0.06)
     # softmax_linear_quan = tf.constant(0.29)
-    '''
-    conv1_quan = tf.constant(0.15)
-    conv2_quan = tf.constant(0.07)
-    local3_quan = tf.constant(0.03)
-    local4_quan = tf.constant(0.05)
-    softmax_linear_quan = tf.constant(0.29)
-    '''
     
-    conv1_quan = tf.constant(0.075)
-    conv2_quan = tf.constant(0.035)
-    local3_quan = tf.constant(0.015)
+    conv1_quan2 = tf.constant(0.15)
+    conv2_quan2 = tf.constant(0.07)
+    local3_quan2 = tf.constant(0.03)
+    local4_quan2 = tf.constant(0.05)
+    softmax_linear_quan2 = tf.constant(0.29)
+    
+    
+    conv1_quan = tf.constant(0.08)
+    conv2_quan = tf.constant(0.02)
+    local3_quan = tf.constant(0.02)
     local4_quan = tf.constant(0.025)
     softmax_linear_quan = tf.constant(0.15)
 
@@ -146,11 +146,11 @@ def train():
     #      raise RuntimeError('Some variables are not matched!!!')
     #tf.add_to_collection('mytrainable_list', mytrainable_list)
 
-    f1_conv1 = tf.sign(conv1_weights + 2*conv1_quan) * (conv1_weights + 2*conv1_quan)
+    f1_conv1 = tf.sign(conv1_weights + conv1_quan2) * (conv1_weights + conv1_quan2)
     f2_conv1 = tf.sign(conv1_weights + conv1_quan) * (conv1_weights + conv1_quan)
     f3_conv1 = tf.sign(conv1_weights) * conv1_weights
     f4_conv1 = tf.sign(conv1_weights - conv1_quan) * (conv1_weights - conv1_quan)
-    f5_conv1 = tf.sign(conv1_weights - 2*conv1_quan) * (conv1_weights - 2*conv1_quan)
+    f5_conv1 = tf.sign(conv1_weights - conv1_quan2) * (conv1_weights - conv1_quan2)
     
     '''
     f1_conv2 = tf.sign(conv2_weights + conv2_quan) * (conv2_weights + conv2_quan)
@@ -170,29 +170,29 @@ def train():
     f3_softmax_linear = tf.sign(softmax_linear_weights - softmax_linear_quan) * (softmax_linear_weights - softmax_linear_quan)
     '''
     
-    f1_conv2 = tf.sign(conv2_weights + 2*conv2_quan) * (conv2_weights + 2*conv2_quan)
+    f1_conv2 = tf.sign(conv2_weights + conv2_quan2) * (conv2_weights + conv2_quan2)
     f2_conv2 = tf.sign(conv2_weights + conv2_quan) * (conv2_weights + conv2_quan)
     f3_conv2 = tf.sign(conv2_weights) * conv2_weights
     f4_conv2 = tf.sign(conv2_weights - conv2_quan) * (conv2_weights - conv2_quan)
-    f5_conv2 = tf.sign(conv2_weights - 2*conv2_quan) * (conv2_weights - 2*conv2_quan)
+    f5_conv2 = tf.sign(conv2_weights - conv2_quan2) * (conv2_weights - conv2_quan2)
     
-    f1_local3 = tf.sign(local3_weights + 2*local3_quan) * (local3_weights + 2*local3_quan)
+    f1_local3 = tf.sign(local3_weights + local3_quan2) * (local3_weights + local3_quan2)
     f2_local3 = tf.sign(local3_weights + local3_quan) * (local3_weights + local3_quan)
     f3_local3 = tf.sign(local3_weights) * local3_weights
     f4_local3 = tf.sign(local3_weights - local3_quan) * (local3_weights - local3_quan)
-    f5_local3 = tf.sign(local3_weights - local3_quan) * (local3_weights - 2*local3_quan)
+    f5_local3 = tf.sign(local3_weights - local3_quan2) * (local3_weights - local3_quan2)
     
-    f1_local4 = tf.sign(local4_weights + 2*local4_quan) * (local4_weights + 2*local4_quan)
+    f1_local4 = tf.sign(local4_weights + local4_quan2) * (local4_weights + local4_quan2)
     f2_local4 = tf.sign(local4_weights + local4_quan) * (local4_weights + local4_quan)
     f3_local4 = tf.sign(local4_weights) * local4_weights
     f4_local4 = tf.sign(local4_weights - local4_quan) * (local4_weights - local4_quan)
-    f5_local4 = tf.sign(local4_weights - local4_quan) * (local4_weights - 2*local4_quan)
+    f5_local4 = tf.sign(local4_weights - local4_quan2) * (local4_weights - local4_quan2)
     
-    f1_softmax_linear = tf.sign(softmax_linear_weights + 2*softmax_linear_quan) * (softmax_linear_weights + 2*softmax_linear_quan)
+    f1_softmax_linear = tf.sign(softmax_linear_weights + softmax_linear_quan2) * (softmax_linear_weights + softmax_linear_quan2)
     f2_softmax_linear = tf.sign(softmax_linear_weights + softmax_linear_quan) * (softmax_linear_weights + softmax_linear_quan)
     f3_softmax_linear = tf.sign(softmax_linear_weights) * softmax_linear_weights
     f4_softmax_linear = tf.sign(softmax_linear_weights - softmax_linear_quan) * (softmax_linear_weights - softmax_linear_quan)
-    f5_softmax_linear = tf.sign(softmax_linear_weights - 2*softmax_linear_quan) * (softmax_linear_weights - 2*softmax_linear_quan)
+    f5_softmax_linear = tf.sign(softmax_linear_weights - softmax_linear_quan2) * (softmax_linear_weights - softmax_linear_quan2)
     
     
     
