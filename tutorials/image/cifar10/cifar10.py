@@ -61,7 +61,7 @@ tf.app.flags.DEFINE_string('data_dir', './train_data',
 tf.app.flags.DEFINE_boolean('use_fp16', False,
                             """Train the model using fp16.""")
 
-tf.app.flags.DEFINE_float('Adam_ilr', 0.0001,
+tf.app.flags.DEFINE_float('Adam_ilr', 0.00001,
                             """Initial learning rate for Adam optimizer.""")
 
 # Global constants describing the CIFAR-10 data set.
