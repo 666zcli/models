@@ -56,7 +56,7 @@ tf.app.flags.DEFINE_string('train_dir', './Adam_finetune_bias_tuning_lr_0.00001_
                            """and checkpoint.""")
 tf.app.flags.DEFINE_integer('max_steps', 150000,
                             """Number of batches to run.""")
-tf.app.flags.DEFINE_float('weight_decay', 0.0005,
+tf.app.flags.DEFINE_float('weight_decay', 0.012,
                             """Decay to learn quantized weights.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
