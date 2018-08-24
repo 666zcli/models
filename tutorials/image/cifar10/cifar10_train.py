@@ -51,7 +51,7 @@ FLAGS = tf.app.flags.FLAGS
 # tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
 #                            """Directory where to write event logs """
 #                            """and checkpoint.""")
-tf.app.flags.DEFINE_string('train_dir', './Adam_finetune_bias_tuning_lr_0.00001_ti_150000_ellipse/cifar10_train',
+tf.app.flags.DEFINE_string('train_dir', './Adam_finetune_bias_tuning_lr_0.00001_ti_150000_ellipse_weight_decay_0.001/cifar10_train',
                            """Directory where to write event logs """
                            """and checkpoint.""")
 tf.app.flags.DEFINE_integer('max_steps', 150000,
