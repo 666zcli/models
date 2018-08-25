@@ -224,10 +224,10 @@ def train():
                                   tf.where(tf.less(softmax_linear_weights, -tf.divide(softmax_linear_quan, 2.0)), f2_softmax_linear, tf.where(tf.less(softmax_linear_weights, tf.divide(softmax_linear_quan, 2.0)), f3_softmax_linear,
                                   tf.where(tf.less(softmax_linear_weights, tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), f4_softmax_linear, f5_softmax_linear))))
     quantify_regularizers = (tf.reduce_sum(conv1_regularizers)+
-                             tf.reduce_sum(conv2_regularizers)+
-                             tf.reduce_sum(local3_regularizers)+
-                             tf.reduce_sum(local4_regularizers)+
-                             tf.reduce_sum(softmax_linear_regularizers)
+                             tf.reduce_sum(conv2_regularizers)#+
+                             #tf.reduce_sum(local3_regularizers)+
+                             #tf.reduce_sum(local4_regularizers)+
+                             #tf.reduce_sum(softmax_linear_regularizers)
                              )
 
     # # a changes with a square root of cosine function
@@ -357,7 +357,7 @@ def train():
                 var_dic[_var_name] = _var
         saver = tf.train.Saver(var_dic)
 
-        saver.restore(sess, "./pretrain_baseline_0.872_lr_0.0002_wd_0.001_ti_500000/cifar10_train/model.ckpt-500000")
+        #saver.restore(sess, "./pretrain_baseline_0.872_lr_0.0002_wd_0.001_ti_500000/cifar10_train/model.ckpt-500000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_aL1/cifar10_train/model.ckpt-150000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_Bernoulli/cifar10_train/model.ckpt-150000")
