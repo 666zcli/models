@@ -48,11 +48,11 @@ FLAGS = tf.app.flags.FLAGS
 
 # tf.app.flags.DEFINE_string('eval_dir', '/tmp/cifar10_eval',
 #                            """Directory where to write event logs.""")
-tf.app.flags.DEFINE_string('eval_dir', './Adam_finetune_bias_tuning_lr_0.00001_ti_150000_ellipse_weight_decay_0.0005/cifar10_eval',
+tf.app.flags.DEFINE_string('eval_dir', './Adam_finetune_bias_tuning_lr_0.00001_ti_150000_ellipse_weight_decay_0.02/cifar10_eval',
                            """Directory where to write event logs.""")
 tf.app.flags.DEFINE_string('eval_data', 'test',
                            """Either 'test' or 'train_eval'.""")
-tf.app.flags.DEFINE_string('checkpoint_dir', './Adam_finetune_bias_tuning_lr_0.00001_ti_150000_ellipse_weight_decay_0.0005/cifar10_train',
+tf.app.flags.DEFINE_string('checkpoint_dir', './Adam_finetune_bias_tuning_lr_0.00001_ti_150000_ellipse_weight_decay_0.02/cifar10_train',
                            """Directory where to read model checkpoints.""")
 tf.app.flags.DEFINE_integer('eval_interval_secs', 60 * 5,
                             """How often to run the eval.""")
