@@ -51,12 +51,12 @@ FLAGS = tf.app.flags.FLAGS
 # tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
 #                            """Directory where to write event logs """
 #                            """and checkpoint.""")
-tf.app.flags.DEFINE_string('train_dir', './Adam_finetune_bias_tuning_lr_0.00001_ti_150000_ellipse_weight_decay_0.02/cifar10_train',
+tf.app.flags.DEFINE_string('train_dir', './Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse_weight_decay_0.015/cifar10_train',
                            """Directory where to write event logs """
                            """and checkpoint.""")
 tf.app.flags.DEFINE_integer('max_steps', 150000,
                             """Number of batches to run.""")
-tf.app.flags.DEFINE_float('weight_decay', 0.02,
+tf.app.flags.DEFINE_float('weight_decay', 0.015,
                             """Decay to learn quantized weights.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
