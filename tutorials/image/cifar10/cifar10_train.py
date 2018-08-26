@@ -225,8 +225,8 @@ def train():
                                   tf.where(tf.less(softmax_linear_weights, tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), f4_softmax_linear, f5_softmax_linear))))
     quantify_regularizers = (10*tf.reduce_sum(conv1_regularizers)+
                              10*tf.reduce_sum(conv2_regularizers)+
-                             tf.reduce_sum(local3_regularizers)#+
-                             #tf.reduce_sum(local4_regularizers)+
+                             tf.reduce_sum(local3_regularizers)+
+                             tf.reduce_sum(local4_regularizers)
                              #tf.reduce_sum(softmax_linear_regularizers)
                              )
 
