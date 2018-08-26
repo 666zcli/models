@@ -152,7 +152,7 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
           sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*conv2_quan, 0.5*conv2_quan2)), -conv2_quan2 * conv2_ones_shape,
                   tf.where(tf.less(var, -tf.divide(conv2_quan, 2.0)), -conv2_quan * conv2_ones_shape, tf.where(tf.less(var, tf.divide(conv2_quan, 2.0)), 0. * conv2_ones_shape,
                   tf.where(tf.less(var, tf.add(0.5*conv2_quan, 0.5*conv2_quan2)), conv2_quan * conv2_ones_shape, conv2_quan2 * conv2_ones_shape))))))
-        
+        '''
         elif re.compile(weights_pattern_local3).match(var.op.name):
           local3_ones_shape = tf.ones(shape=tf.shape(var))
           sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*local3_quan, 0.5*local3_quan2)), -local3_quan2 * local3_ones_shape,
@@ -169,7 +169,7 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
           sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), -softmax_linear_quan2 * softmax_linear_ones_shape,
                   tf.where(tf.less(var, -tf.divide(softmax_linear_quan, 2.0)), -softmax_linear_quan * softmax_linear_ones_shape, tf.where(tf.less(var, tf.divide(softmax_linear_quan, 2.0)), 0. * softmax_linear_ones_shape,
                   tf.where(tf.less(var, tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), softmax_linear_quan * softmax_linear_ones_shape, softmax_linear_quan2 * softmax_linear_ones_shape))))))
-        '''
+        
     # Start the queue runners.
     coord = tf.train.Coordinator()
     try:
