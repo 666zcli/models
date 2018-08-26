@@ -116,8 +116,8 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
     for var in tf.trainable_variables():
         weights_pattern_conv1 = "conv1/weights$"
         weights_pattern_conv2 = "conv2/weights$"
-        weights_pattern_local3 = "local3/weights$"
-        weights_pattern_local4 = "local4/weights$"
+        #weights_pattern_local3 = "local3/weights$"
+        #weights_pattern_local4 = "local4/weights$"
         weights_pattern_softmax_linear = "local4/softmax_linear/weights$"
         # #
         '''
