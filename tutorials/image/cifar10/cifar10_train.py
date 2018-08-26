@@ -226,7 +226,7 @@ def train():
     quantify_regularizers = (50*tf.reduce_sum(conv1_regularizers)+
                              50*tf.reduce_sum(conv2_regularizers)+
                              tf.reduce_sum(local3_regularizers)+
-                             tf.reduce_sum(local4_regularizers)
+                             tf.reduce_sum(local4_regularizers)+
                              tf.reduce_sum(softmax_linear_regularizers)
                              )
 
