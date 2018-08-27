@@ -103,7 +103,7 @@ def train():
     # local4_quan = tf.constant(0.06)
     # softmax_linear_quan = tf.constant(0.29)
     
-    conv1_quan2 = tf.constant(0.15)
+    conv1_quan2 = tf.constant(0.10)
     conv2_quan2 = tf.constant(0.07)
     local3_quan2 = tf.constant(0.03)
     local4_quan2 = tf.constant(0.05)
