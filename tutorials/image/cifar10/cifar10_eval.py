@@ -14,20 +14,16 @@
 # ==============================================================================
 
 """Evaluation for CIFAR-10.
-
 Accuracy:
 cifar10_train.py achieves 83.0% accuracy after 100K steps (256 epochs
 of data) as judged by cifar10_eval.py.
-
 Speed:
 On a single Tesla K40, cifar10_train.py processes a single batch of 128 images
 in 0.25-0.35 sec (i.e. 350 - 600 images /sec). The model reaches ~86%
 accuracy after 100K steps in 8 hours of training time.
-
 Usage:
 Please see the tutorial and website for how to download the CIFAR-10
 data set, compile the program and train the model.
-
 http://tensorflow.org/tutorials/deep_cnn/
 """
 from __future__ import absolute_import
@@ -48,11 +44,11 @@ FLAGS = tf.app.flags.FLAGS
 
 # tf.app.flags.DEFINE_string('eval_dir', '/tmp/cifar10_eval',
 #                            """Directory where to write event logs.""")
-tf.app.flags.DEFINE_string('eval_dir', './Adam_finetune_bias_tuning_lr_0.0001_ti_150000_ellipse_weight_decay_0.015/cifar10_eval',
+tf.app.flags.DEFINE_string('eval_dir', './Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse/cifar10_eval',
                            """Directory where to write event logs.""")
 tf.app.flags.DEFINE_string('eval_data', 'test',
                            """Either 'test' or 'train_eval'.""")
-tf.app.flags.DEFINE_string('checkpoint_dir', './Adam_finetune_bias_tuning_lr_0.0001_ti_150000_ellipse_weight_decay_0.015/cifar10_train',
+tf.app.flags.DEFINE_string('checkpoint_dir', './Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse/cifar10_train',
                            """Directory where to read model checkpoints.""")
 tf.app.flags.DEFINE_integer('eval_interval_secs', 60 * 5,
                             """How often to run the eval.""")
@@ -64,7 +60,6 @@ tf.app.flags.DEFINE_boolean('run_once', False,
 
 def eval_once(saver, summary_writer, top_k_op, summary_op):
   """Run Eval once.
-
   Args:
     saver: Saver.
     summary_writer: Summary writer.
@@ -99,16 +94,9 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
     local4_quan = tf.constant(0.05)
     softmax_linear_quan = tf.constant(0.29)
     '''
-    conv1_quan2 = tf.constant(0.15)
-    conv2_quan2 = tf.constant(0.07)
-    local3_quan2 = tf.constant(0.03)
-    local4_quan2 = tf.constant(0.05)
-    softmax_linear_quan2 = tf.constant(0.29)
-    
-    
-    conv1_quan = tf.constant(0.08)
-    conv2_quan = tf.constant(0.02)
-    local3_quan = tf.constant(0.02)
+    conv1_quan = tf.constant(0.075)
+    conv2_quan = tf.constant(0.035)
+    local3_quan = tf.constant(0.015)
     local4_quan = tf.constant(0.025)
     softmax_linear_quan = tf.constant(0.15)
     # sess.run(tf.Print(conv1_quan, [conv1_quan], 'conv1_quan'))
@@ -144,33 +132,29 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
         '''
         if re.compile(weights_pattern_conv1).match(var.op.name):
           conv1_ones_shape = tf.ones(shape=tf.shape(var))
-          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*conv1_quan, 0.5*conv1_quan2)), -conv1_quan2 * conv1_ones_shape,
+          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.multiply(conv1_quan, 1.5)), -2*conv1_quan * conv1_ones_shape,
                   tf.where(tf.less(var, -tf.divide(conv1_quan, 2.0)), -conv1_quan * conv1_ones_shape, tf.where(tf.less(var, tf.divide(conv1_quan, 2.0)), 0. * conv1_ones_shape,
-                  tf.where(tf.less(var, tf.add(0.5*conv1_quan, 0.5*conv1_quan2)), conv1_quan * conv1_ones_shape, conv1_quan2 * conv1_ones_shape))))))
+                  tf.where(tf.less(var, tf.multiply(conv1_quan, 1.5)), conv1_quan * conv1_ones_shape, 2*conv1_quan * conv1_ones_shape))))))
         elif re.compile(weights_pattern_conv2).match(var.op.name):
           conv2_ones_shape = tf.ones(shape=tf.shape(var))
-          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*conv2_quan, 0.5*conv2_quan2)), -conv2_quan2 * conv2_ones_shape,
+          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.multiply(conv2_quan, 1.5)), -2*conv2_quan * conv2_ones_shape,
                   tf.where(tf.less(var, -tf.divide(conv2_quan, 2.0)), -conv2_quan * conv2_ones_shape, tf.where(tf.less(var, tf.divide(conv2_quan, 2.0)), 0. * conv2_ones_shape,
-                  tf.where(tf.less(var, tf.add(0.5*conv2_quan, 0.5*conv2_quan2)), conv2_quan * conv2_ones_shape, conv2_quan2 * conv2_ones_shape))))))
-        
+                  tf.where(tf.less(var, tf.multiply(conv2_quan, 1.5)), conv2_quan * conv2_ones_shape, 2*conv2_quan * conv2_ones_shape))))))
         elif re.compile(weights_pattern_local3).match(var.op.name):
           local3_ones_shape = tf.ones(shape=tf.shape(var))
-          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*local3_quan, 0.5*local3_quan2)), -local3_quan2 * local3_ones_shape,
+          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.multiply(local3_quan, 1.5)), -2*local3_quan * local3_ones_shape,
                   tf.where(tf.less(var, -tf.divide(local3_quan, 2.0)), -local3_quan * local3_ones_shape, tf.where(tf.less(var, tf.divide(local3_quan, 2.0)), 0. * local3_ones_shape,
-                  tf.where(tf.less(var, tf.add(0.5*local3_quan, 0.5*local3_quan2)), local3_quan * local3_ones_shape, local3_quan2 * local3_ones_shape))))))
+                  tf.where(tf.less(var, tf.multiply(local3_quan, 1.5)), local3_quan * local3_ones_shape, 2*local3_quan * local3_ones_shape))))))
         elif re.compile(weights_pattern_local4).match(var.op.name):
           local4_ones_shape = tf.ones(shape=tf.shape(var))
-          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*local4_quan, 0.5*local4_quan2)), -local4_quan2 * local4_ones_shape,
+          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.multiply(local4_quan, 1.5)), -2*local4_quan * local4_ones_shape,
                   tf.where(tf.less(var, -tf.divide(local4_quan, 2.0)), -local4_quan * local4_ones_shape, tf.where(tf.less(var, tf.divide(local4_quan, 2.0)), 0. * local4_ones_shape,
-                  tf.where(tf.less(var, tf.add(0.5*local4_quan, 0.5*local4_quan2)), local4_quan * local4_ones_shape, local4_quan2 * local4_ones_shape))))))
-        
-        
+                  tf.where(tf.less(var, tf.multiply(local4_quan, 1.5)), local4_quan * local4_ones_shape, 2*local4_quan * local4_ones_shape))))))
         elif re.compile(weights_pattern_softmax_linear).match(var.op.name):
           softmax_linear_ones_shape = tf.ones(shape=tf.shape(var))
-          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), -softmax_linear_quan2 * softmax_linear_ones_shape,
+          sess.run(tf.assign(var, tf.where(tf.less(var, -tf.multiply(softmax_linear_quan, 1.5)), -2*softmax_linear_quan * softmax_linear_ones_shape,
                   tf.where(tf.less(var, -tf.divide(softmax_linear_quan, 2.0)), -softmax_linear_quan * softmax_linear_ones_shape, tf.where(tf.less(var, tf.divide(softmax_linear_quan, 2.0)), 0. * softmax_linear_ones_shape,
-                  tf.where(tf.less(var, tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), softmax_linear_quan * softmax_linear_ones_shape, softmax_linear_quan2 * softmax_linear_ones_shape))))))
-        
+                  tf.where(tf.less(var, tf.multiply(softmax_linear_quan, 1.5)), softmax_linear_quan * softmax_linear_ones_shape, 2*softmax_linear_quan * softmax_linear_ones_shape))))))
     # Start the queue runners.
     coord = tf.train.Coordinator()
     try:
