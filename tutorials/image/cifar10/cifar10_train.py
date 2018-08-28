@@ -14,22 +14,17 @@
 # ==============================================================================
 
 """A binary to train CIFAR-10 using a single GPU.
-
 Accuracy:
 cifar10_train.py achieves ~86% accuracy after 100K steps (256 epochs of
 data) as judged by cifar10_eval.py.
-
 Speed: With batch_size 128.
-
 System        | Step Time (sec/batch)  |     Accuracy
 ------------------------------------------------------------------
 1 Tesla K20m  | 0.35-0.60              | ~86% at 60K steps  (5 hours)
 1 Tesla K40m  | 0.25-0.35              | ~86% at 100K steps (4 hours)
-
 Usage:
 Please see the tutorial and website for how to download the CIFAR-10
 data set, compile the program and train the model.
-
 http://tensorflow.org/tutorials/deep_cnn/
 """
 from __future__ import absolute_import
@@ -51,12 +46,12 @@ FLAGS = tf.app.flags.FLAGS
 # tf.app.flags.DEFINE_string('train_dir', '/tmp/cifar10_train',
 #                            """Directory where to write event logs """
 #                            """and checkpoint.""")
-tf.app.flags.DEFINE_string('train_dir', './Adam_finetune_bias_tuning_lr_0.0001_ti_150000_ellipse_weight_decay_0.015/cifar10_train',
+tf.app.flags.DEFINE_string('train_dir', './Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse/cifar10_train',
                            """Directory where to write event logs """
                            """and checkpoint.""")
 tf.app.flags.DEFINE_integer('max_steps', 150000,
                             """Number of batches to run.""")
-tf.app.flags.DEFINE_float('weight_decay', 0.015,
+tf.app.flags.DEFINE_float('weight_decay', 0.002,
                             """Decay to learn quantized weights.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
@@ -102,18 +97,18 @@ def train():
     # local3_quan = tf.constant(0.04)
     # local4_quan = tf.constant(0.06)
     # softmax_linear_quan = tf.constant(0.29)
-    
-    conv1_quan2 = tf.constant(0.15)
-    conv2_quan2 = tf.constant(0.08)
-    local3_quan2 = tf.constant(0.06)
-    local4_quan2 = tf.constant(0.08)
-    softmax_linear_quan2 = tf.constant(0.29)
-    
-    
-    conv1_quan = tf.constant(0.08)
-    conv2_quan = tf.constant(0.04)
+    '''
+    conv1_quan = tf.constant(0.15)
+    conv2_quan = tf.constant(0.07)
     local3_quan = tf.constant(0.03)
-    local4_quan = tf.constant(0.03)
+    local4_quan = tf.constant(0.05)
+    softmax_linear_quan = tf.constant(0.29)
+    '''
+    
+    conv1_quan = tf.constant(0.075)
+    conv2_quan = tf.constant(0.035)
+    local3_quan = tf.constant(0.015)
+    local4_quan = tf.constant(0.025)
     softmax_linear_quan = tf.constant(0.15)
 
     #mytrainable_list = []
@@ -146,60 +141,57 @@ def train():
     #      raise RuntimeError('Some variables are not matched!!!')
     #tf.add_to_collection('mytrainable_list', mytrainable_list)
 
-    f1_conv1 = tf.sign(conv1_weights + conv1_quan2) * (conv1_weights + conv1_quan2)
+    f1_conv1 = tf.sign(conv1_weights + 2*conv1_quan) * (conv1_weights + 2*conv1_quan)
     f2_conv1 = tf.sign(conv1_weights + conv1_quan) * (conv1_weights + conv1_quan)
     f3_conv1 = tf.sign(conv1_weights) * conv1_weights
     f4_conv1 = tf.sign(conv1_weights - conv1_quan) * (conv1_weights - conv1_quan)
-    f5_conv1 = tf.sign(conv1_weights - conv1_quan2) * (conv1_weights - conv1_quan2)
+    f5_conv1 = tf.sign(conv1_weights - 2*conv1_quan) * (conv1_weights - 2*conv1_quan)
     
     '''
     f1_conv2 = tf.sign(conv2_weights + conv2_quan) * (conv2_weights + conv2_quan)
     f2_conv2 = tf.sign(conv2_weights) * conv2_weights
     f3_conv2 = tf.sign(conv2_weights - conv2_quan) * (conv2_weights - conv2_quan)
-
     f1_local3 = tf.sign(local3_weights + local3_quan) * (local3_weights + local3_quan)
     f2_local3 = tf.sign(local3_weights) * local3_weights
     f3_local3 = tf.sign(local3_weights - local3_quan) * (local3_weights - local3_quan)
-
     f1_local4 = tf.sign(local4_weights + local4_quan) * (local4_weights + local4_quan)
     f2_local4 = tf.sign(local4_weights) * local4_weights
     f3_local4 = tf.sign(local4_weights - local4_quan) * (local4_weights - local4_quan)
-
     f1_softmax_linear = tf.sign(softmax_linear_weights + softmax_linear_quan) * (softmax_linear_weights + softmax_linear_quan)
     f2_softmax_linear = tf.sign(softmax_linear_weights) * softmax_linear_weights
     f3_softmax_linear = tf.sign(softmax_linear_weights - softmax_linear_quan) * (softmax_linear_weights - softmax_linear_quan)
     '''
     
-    f1_conv2 = tf.sign(conv2_weights + conv2_quan2) * (conv2_weights + conv2_quan2)
+    f1_conv2 = tf.sign(conv2_weights + 2*conv2_quan) * (conv2_weights + 2*conv2_quan)
     f2_conv2 = tf.sign(conv2_weights + conv2_quan) * (conv2_weights + conv2_quan)
     f3_conv2 = tf.sign(conv2_weights) * conv2_weights
     f4_conv2 = tf.sign(conv2_weights - conv2_quan) * (conv2_weights - conv2_quan)
-    f5_conv2 = tf.sign(conv2_weights - conv2_quan2) * (conv2_weights - conv2_quan2)
+    f5_conv2 = tf.sign(conv2_weights - 2*conv2_quan) * (conv2_weights - 2*conv2_quan)
     
-    f1_local3 = tf.sign(local3_weights + local3_quan2) * (local3_weights + local3_quan2)
+    f1_local3 = tf.sign(local3_weights + 2*local3_quan) * (local3_weights + 2*local3_quan)
     f2_local3 = tf.sign(local3_weights + local3_quan) * (local3_weights + local3_quan)
     f3_local3 = tf.sign(local3_weights) * local3_weights
     f4_local3 = tf.sign(local3_weights - local3_quan) * (local3_weights - local3_quan)
-    f5_local3 = tf.sign(local3_weights - local3_quan2) * (local3_weights - local3_quan2)
+    f5_local3 = tf.sign(local3_weights - local3_quan) * (local3_weights - 2*local3_quan)
     
-    f1_local4 = tf.sign(local4_weights + local4_quan2) * (local4_weights + local4_quan2)
+    f1_local4 = tf.sign(local4_weights + 2*local4_quan) * (local4_weights + 2*local4_quan)
     f2_local4 = tf.sign(local4_weights + local4_quan) * (local4_weights + local4_quan)
     f3_local4 = tf.sign(local4_weights) * local4_weights
     f4_local4 = tf.sign(local4_weights - local4_quan) * (local4_weights - local4_quan)
-    f5_local4 = tf.sign(local4_weights - local4_quan2) * (local4_weights - local4_quan2)
+    f5_local4 = tf.sign(local4_weights - local4_quan) * (local4_weights - 2*local4_quan)
     
-    f1_softmax_linear = tf.sign(softmax_linear_weights + softmax_linear_quan2) * (softmax_linear_weights + softmax_linear_quan2)
+    f1_softmax_linear = tf.sign(softmax_linear_weights + 2*softmax_linear_quan) * (softmax_linear_weights + 2*softmax_linear_quan)
     f2_softmax_linear = tf.sign(softmax_linear_weights + softmax_linear_quan) * (softmax_linear_weights + softmax_linear_quan)
     f3_softmax_linear = tf.sign(softmax_linear_weights) * softmax_linear_weights
     f4_softmax_linear = tf.sign(softmax_linear_weights - softmax_linear_quan) * (softmax_linear_weights - softmax_linear_quan)
-    f5_softmax_linear = tf.sign(softmax_linear_weights - softmax_linear_quan2) * (softmax_linear_weights - softmax_linear_quan2)
+    f5_softmax_linear = tf.sign(softmax_linear_weights - 2*softmax_linear_quan) * (softmax_linear_weights - 2*softmax_linear_quan)
     
     
     
     
-    conv1_regularizers = tf.where(tf.less(conv1_weights, -tf.add(0.5*conv1_quan, 0.5*conv1_quan2)), f1_conv1,
+    conv1_regularizers = tf.where(tf.less(conv1_weights, -tf.multiply(conv1_quan, 1.5)), f1_conv1,
                                   tf.where(tf.less(conv1_weights, -tf.divide(conv1_quan, 2.0)), f2_conv1, tf.where(tf.less(conv1_weights, tf.divide(conv1_quan, 2.0)), f3_conv1,
-                                  tf.where(tf.less(conv1_weights, tf.add(0.5*conv1_quan, 0.5*conv1_quan2)), f4_conv1, f5_conv1))))
+                                  tf.where(tf.less(conv1_weights, tf.multiply(conv1_quan, 1.5)), f4_conv1, f5_conv1))))
     '''
     conv2_regularizers = tf.where(tf.less(conv2_weights, -tf.divide(conv2_quan, 2.0)), f1_conv2,
                                   tf.where(tf.less(conv2_weights, tf.divide(conv2_quan, 2.0)), f2_conv2, f3_conv2))
@@ -211,18 +203,18 @@ def train():
                                    tf.where(tf.less(softmax_linear_weights, tf.divide(softmax_linear_quan, 2.0)), f2_softmax_linear, f3_softmax_linear))
     '''
     
-    conv2_regularizers = tf.where(tf.less(conv2_weights, -tf.add(0.5*conv2_quan, 0.5*conv2_quan2)), f1_conv2,
+    conv2_regularizers = tf.where(tf.less(conv2_weights, -tf.multiply(conv2_quan, 1.5)), f1_conv2,
                                   tf.where(tf.less(conv2_weights, -tf.divide(conv2_quan, 2.0)), f2_conv2, tf.where(tf.less(conv2_weights, tf.divide(conv2_quan, 2.0)), f3_conv2,
-                                  tf.where(tf.less(conv2_weights, tf.add(0.5*conv2_quan, 0.5*conv2_quan2)), f4_conv2, f5_conv2))))
-    local3_regularizers = tf.where(tf.less(local3_weights, -tf.add(0.5*local3_quan, 0.5*local3_quan2)), f1_local3,
+                                  tf.where(tf.less(conv2_weights, tf.multiply(conv2_quan, 1.5)), f4_conv2, f5_conv2))))
+    local3_regularizers = tf.where(tf.less(local3_weights, -tf.multiply(local3_quan, 1.5)), f1_local3,
                                   tf.where(tf.less(local3_weights, -tf.divide(local3_quan, 2.0)), f2_local3, tf.where(tf.less(local3_weights, tf.divide(local3_quan, 2.0)), f3_local3,
-                                  tf.where(tf.less(local3_weights, tf.add(0.5*local3_quan, 0.5*local3_quan2)), f4_local3, f5_local3))))
-    local4_regularizers = tf.where(tf.less(local4_weights, -tf.add(0.5*local4_quan, 0.5*local4_quan2)), f1_local4,
+                                  tf.where(tf.less(local3_weights, tf.multiply(local3_quan, 1.5)), f4_local3, f5_local3))))
+    local4_regularizers = tf.where(tf.less(local4_weights, -tf.multiply(local4_quan, 1.5)), f1_local4,
                                   tf.where(tf.less(local4_weights, -tf.divide(local4_quan, 2.0)), f2_local4, tf.where(tf.less(local4_weights, tf.divide(local4_quan, 2.0)), f3_local4,
-                                  tf.where(tf.less(local4_weights, tf.add(0.5*local4_quan, 0.5*local4_quan2)), f4_local4, f5_local4))))
-    softmax_linear_regularizers = tf.where(tf.less(softmax_linear_weights, -tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), f1_softmax_linear,
+                                  tf.where(tf.less(local4_weights, tf.multiply(local4_quan, 1.5)), f4_local4, f5_local4))))
+    softmax_linear_regularizers = tf.where(tf.less(softmax_linear_weights, -tf.multiply(softmax_linear_quan, 1.5)), f1_softmax_linear,
                                   tf.where(tf.less(softmax_linear_weights, -tf.divide(softmax_linear_quan, 2.0)), f2_softmax_linear, tf.where(tf.less(softmax_linear_weights, tf.divide(softmax_linear_quan, 2.0)), f3_softmax_linear,
-                                  tf.where(tf.less(softmax_linear_weights, tf.add(0.5*softmax_linear_quan, 0.5*softmax_linear_quan2)), f4_softmax_linear, f5_softmax_linear))))
+                                  tf.where(tf.less(softmax_linear_weights, tf.multiply(softmax_linear_quan, 1.5)), f4_softmax_linear, f5_softmax_linear))))
     quantify_regularizers = (tf.reduce_sum(conv1_regularizers)+
                              tf.reduce_sum(conv2_regularizers)+
                              tf.reduce_sum(local3_regularizers)+
@@ -357,7 +349,7 @@ def train():
                 var_dic[_var_name] = _var
         saver = tf.train.Saver(var_dic)
 
-        #saver.restore(sess, "./pretrain_baseline_0.872_lr_0.0002_wd_0.001_ti_500000/cifar10_train/model.ckpt-500000")
+        # saver.restore(sess, "./pretrain_baseline_0.872_lr_0.0002_wd_0.001_ti_500000/cifar10_train/model.ckpt-500000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_aL1/cifar10_train/model.ckpt-150000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
         # saver.restore(sess, "./Adam_finetune_conv1_lr_0.00005_wd_0.01_ti_150000_Bernoulli/cifar10_train/model.ckpt-150000")
@@ -372,9 +364,8 @@ def train():
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local3_local4_0.004_lr_0.0001_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local3_local4_0.008_lr_0.00005_ti_121000_Bernoulli_v3/cifar10_train/model.ckpt-121000")
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_121000_Bernoulli_v3/cifar10_train/model.ckpt-121000")
-        #saver.restore(sess,"./Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse_v1/cifar10_train/model.ckpt-150000")
-        #saver.restore(sess,"./Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-300000.meta")
-        
+        # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
+
         # saver.restore(sess, "./Adam_finetune_freeze_conv1_conv2_0.005_lr_0.0001_ti_121000_Bernoulli/cifar10_train/model.ckpt-121000")
 
         # Start the queue runners.
