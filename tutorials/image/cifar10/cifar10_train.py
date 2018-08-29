@@ -366,7 +366,7 @@ def train():
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_121000_Bernoulli_v3/cifar10_train/model.ckpt-121000")
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
 
-        # saver.restore(sess, "./Adam_finetune_freeze_conv1_conv2_0.005_lr_0.0001_ti_121000_Bernoulli/cifar10_train/model.ckpt-121000")
+        saver = tf.train.import_meta_graph("./original_pretrain/cifar10_train/model.ckpt-100000.meta")
         saver.restore(sess, "./original_pretrain/cifar10_train/model.ckpt-100000")
         # Start the queue runners.
         coord = tf.train.Coordinator()
