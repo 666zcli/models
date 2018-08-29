@@ -217,7 +217,7 @@ def train():
                                   tf.where(tf.less(softmax_linear_weights, tf.multiply(softmax_linear_quan, 1.5)), f4_softmax_linear, f5_softmax_linear))))
     quantify_regularizers = (tf.reduce_sum(conv1_regularizers)+
                              tf.reduce_sum(conv2_regularizers)+
-                             60*tf.reduce_sum(local3_regularizers)+
+                             tf.reduce_sum(local3_regularizers)+
                              tf.reduce_sum(local4_regularizers)+
                              tf.reduce_sum(softmax_linear_regularizers)
                              )
@@ -367,7 +367,7 @@ def train():
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
 
         # saver.restore(sess, "./Adam_finetune_freeze_conv1_conv2_0.005_lr_0.0001_ti_121000_Bernoulli/cifar10_train/model.ckpt-121000")
-
+        saver.restore(sess, "./original_pretrain/cifar10_train/model.ckpt-100000")
         # Start the queue runners.
         coord = tf.train.Coordinator()
         # threads = tf.train.start_queue_runners(sess=sess, coord=coord)
