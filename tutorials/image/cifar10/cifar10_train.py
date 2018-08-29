@@ -215,8 +215,8 @@ def train():
     softmax_linear_regularizers = tf.where(tf.less(softmax_linear_weights, -tf.multiply(softmax_linear_quan, 1.5)), f1_softmax_linear,
                                   tf.where(tf.less(softmax_linear_weights, -tf.divide(softmax_linear_quan, 2.0)), f2_softmax_linear, tf.where(tf.less(softmax_linear_weights, tf.divide(softmax_linear_quan, 2.0)), f3_softmax_linear,
                                   tf.where(tf.less(softmax_linear_weights, tf.multiply(softmax_linear_quan, 1.5)), f4_softmax_linear, f5_softmax_linear))))
-    quantify_regularizers = (60*tf.reduce_sum(conv1_regularizers)+
-                             tf.reduce_sum(conv2_regularizers)+
+    quantify_regularizers = (tf.reduce_sum(conv1_regularizers)+
+                             60*tf.reduce_sum(conv2_regularizers)+
                              tf.reduce_sum(local3_regularizers)+
                              tf.reduce_sum(local4_regularizers)+
                              tf.reduce_sum(softmax_linear_regularizers)
