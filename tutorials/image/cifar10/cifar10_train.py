@@ -337,7 +337,7 @@ def train():
         FLAGS.train_dir,
         graph=tf.get_default_graph())
     
-    tf.reset_default_graph()
+    #tf.reset_default_graph()
     saver = tf.train.import_meta_graph("./original_pretrain/cifar10_train/model.ckpt-100000.meta")
 
     with tf.Session(config=config) as sess:
