@@ -369,7 +369,7 @@ def train():
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_121000_Bernoulli_v3/cifar10_train/model.ckpt-121000")
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
         #saver.restore(sess, "./origian_pretrain/cifar10_train/model.ckpt-150000")
-        saver.restore(sess, "/home/zl198/github/users/666zcli/branch/models/tutorials/image/cifar10/origian_pretrain/cifar10_train/model.ckpt-150000")
+        #saver.restore(sess, "/home/zl198/github/users/666zcli/branch/models/tutorials/image/cifar10/origian_pretrain/cifar10_train/model.ckpt-150000")
         #saver.restore(sess, "./tb_no_quantization_baseline_300000/cifar10_train/model.ckpt-300000")
         # Start the queue runners.
         coord = tf.train.Coordinator()
