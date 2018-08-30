@@ -346,7 +346,7 @@ def train():
         graph=tf.get_default_graph())
 
     with tf.Session(config=config) as sess:
-        # saver = tf.train.import_meta_graph('./tb_no_quantization_baseline_300000/cifar10_train/model.ckpt-300000.meta')
+        saver = tf.train.import_meta_graph('./tb_no_quantization_baseline_300000/cifar10_train/model.ckpt-300000.meta')
         sess.run(tf.global_variables_initializer())
         var_dic = {}
         _vars = tf.global_variables()
@@ -376,7 +376,7 @@ def train():
         #saver.restore(sess,"./Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-300000.meta")
         
         #saver.restore(sess, "./tb_no_quantization_baseline_300000/cifar10_train/model.ckpt-300000")
-        saver.restore(sess, "./origian_pretrain/cifar10_train/model.ckpt-150000")
+        #saver.restore(sess, "./origian_pretrain/cifar10_train/model.ckpt-150000")
         # Start the queue runners.
         coord = tf.train.Coordinator()
         # threads = tf.train.start_queue_runners(sess=sess, coord=coord)
