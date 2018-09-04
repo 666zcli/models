@@ -164,6 +164,12 @@ def train():
     softmax_linear_regularizers = tf.where(tf.less(softmax_linear_weights, -tf.divide(softmax_linear_quan, 2.0)), f1_softmax_linear,
                                    tf.where(tf.less(softmax_linear_weights, tf.divide(softmax_linear_quan, 2.0)), f2_softmax_linear, f3_softmax_linear))
     '''
+    f1_conv1 = tf.sign(conv1_weights + 2*conv1_quan) * (conv1_weights + 2*conv1_quan)
+    f2_conv1 = tf.sign(conv1_weights + conv1_quan) * (conv1_weights + conv1_quan)
+    f3_conv1 = tf.sign(conv1_weights) * conv1_weights
+    f4_conv1 = tf.sign(conv1_weights - conv1_quan) * (conv1_weights - conv1_quan)
+    f5_conv1 = tf.sign(conv1_weights - 2*conv1_quan) * (conv1_weights - 2*conv1_quan)
+    
     f1_conv2 = tf.sign(conv2_weights + 2*conv2_quan) * (conv2_weights + 2*conv2_quan)
     f2_conv2 = tf.sign(conv2_weights + conv2_quan) * (conv2_weights + conv2_quan)
     f3_conv2 = tf.sign(conv2_weights) * conv2_weights
