@@ -118,7 +118,7 @@ def train():
         weights_pattern_conv2 = ".*conv2/weights$"
         weights_pattern_local3 = ".*local3/weights$"
         weights_pattern_local4 = ".*local4/weights$"
-        weights_pattern_softmax_linear = ".*local4/softmax_linear/weights$"
+        weights_pattern_softmax_linear = ".*softmax_linear/weights$"
     #    bias_pattern = re.compile("(.*conv1/biases$)|(.*conv2/biases$)|(.*local3/biases$)|(.*local4/biases$)|(.*local4/softmax_linear/biases$)")
         if re.compile(weights_pattern_conv1).match(var.op.name):
           conv1_weights = var
@@ -346,7 +346,7 @@ def train():
         var_dic = {}
         _vars = tf.global_variables()
         for _var in _vars:
-            pattern = re.compile("(.*conv1/weights$)|(.*conv2/weights$)|(.*local3/weights$)|(.*local4/weights$)|(.*local4/softmax_linear/weights$)|(.*conv1/biases$)|(.*conv2/biases$)|(.*local3/biases$)|(.*local4/biases$)|(.*local4/softmax_linear/biases$)|(.*MovingAverage$)")
+            pattern = re.compile("(.*conv1/weights$)|(.*conv2/weights$)|(.*local3/weights$)|(.*local4/weights$)|(.*softmax_linear/weights$)|(.*conv1/biases$)|(.*conv2/biases$)|(.*local3/biases$)|(.*local4/biases$)|(.*softmax_linear/biases$)|(.*MovingAverage$)")
             if pattern.match(_var.op.name) :
                 _var_name = _var.op.name
                 var_dic[_var_name] = _var
@@ -369,7 +369,7 @@ def train():
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_121000_Bernoulli_v3/cifar10_train/model.ckpt-121000")
         # saver.restore(sess,"./Adam_finetune_freeze_conv12local34_softmax_0.002_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-150000")
         #saver.restore(sess, "./origian_pretrain/cifar10_train/model.ckpt-150000")
-        #saver.restore(sess, "/home/zl198/github/users/666zcli/branch/models/tutorials/image/cifar10/origian_pretrain/cifar10_train/model.ckpt-150000")
+        saver.restore(sess, "./origian/cifar10_train/model.ckpt-150000")
         #saver.restore(sess, "./tb_no_quantization_baseline_300000/cifar10_train/model.ckpt-300000")
         # Start the queue runners.
         coord = tf.train.Coordinator()
