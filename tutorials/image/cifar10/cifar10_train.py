@@ -103,18 +103,18 @@ def train():
     # local4_quan = tf.constant(0.06)
     # softmax_linear_quan = tf.constant(0.29)
     
-    conv1_quan2 = tf.constant(0.08)
-    conv2_quan2 = tf.constant(0.04)
-    local3_quan2 = tf.constant(0.03)
-    local4_quan2 = tf.constant(0.04)
-    softmax_linear_quan2 = tf.constant(0.15)
+    conv1_quan2 = tf.constant(0.15)
+    conv2_quan2 = tf.constant(0.08)
+    local3_quan2 = tf.constant(0.04)
+    local4_quan2 = tf.constant(0.06)
+    softmax_linear_quan2 = tf.constant(0.29)
     
     
-    conv1_quan = tf.constant(0.04)
-    conv2_quan = tf.constant(0.02)
-    local3_quan = tf.constant(0.015)
-    local4_quan = tf.constant(0.02)
-    softmax_linear_quan = tf.constant(0.08)
+    conv1_quan = tf.constant(0.06)
+    conv2_quan = tf.constant(0.04)
+    local3_quan = tf.constant(0.02)
+    local4_quan = tf.constant(0.03)
+    softmax_linear_quan = tf.constant(0.12)
 
     #mytrainable_list = []
     for var in tf.trainable_variables():
@@ -376,7 +376,7 @@ def train():
         #saver.restore(sess,"./Adam_finetune_bias_tuning_lr_0.00005_ti_150000_ellipse/cifar10_train/model.ckpt-300000.meta")
         
         #saver.restore(sess, "./tb_no_quantization_baseline_300000/cifar10_train/model.ckpt-300000")
-        #saver.restore(sess, "./origian_pretrain/cifar10_train/model.ckpt-150000")
+        saver.restore(sess, "./origian/cifar10_train/model.ckpt-150000")
         # Start the queue runners.
         coord = tf.train.Coordinator()
         # threads = tf.train.start_queue_runners(sess=sess, coord=coord)
