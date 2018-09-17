@@ -103,18 +103,18 @@ def train():
     # local4_quan = tf.constant(0.06)
     # softmax_linear_quan = tf.constant(0.29)
     
-    conv1_quan2 = tf.constant(0.15)
-    conv2_quan2 = tf.constant(0.08)
-    local3_quan2 = tf.constant(0.04)
-    local4_quan2 = tf.constant(0.06)
-    softmax_linear_quan2 = tf.constant(0.29)
+    conv1_quan2 = tf.constant(0.125)
+    conv2_quan2 = tf.constant(0.0625)
+    local3_quan2 = tf.constant(0.03125)
+    local4_quan2 = tf.constant(0.0625)
+    softmax_linear_quan2 = tf.constant(0.125)
     
     
-    conv1_quan = tf.constant(0.06)
-    conv2_quan = tf.constant(0.04)
-    local3_quan = tf.constant(0.02)
-    local4_quan = tf.constant(0.03)
-    softmax_linear_quan = tf.constant(0.12)
+    conv1_quan = tf.constant(0.0625)
+    conv2_quan = tf.constant(0.015625)
+    local3_quan = tf.constant(0.0078125)
+    local4_quan = tf.constant(0.03125)
+    softmax_linear_quan = tf.constant(0.0625)
 
     #mytrainable_list = []
     for var in tf.trainable_variables():

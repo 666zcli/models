@@ -99,18 +99,19 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
     local4_quan = tf.constant(0.05)
     softmax_linear_quan = tf.constant(0.29)
     '''
-    conv1_quan2 = tf.constant(0.15)
-    conv2_quan2 = tf.constant(0.07)
-    local3_quan2 = tf.constant(0.03)
-    local4_quan2 = tf.constant(0.05)
-    softmax_linear_quan2 = tf.constant(0.29)
+    conv1_quan2 = tf.constant(0.125)
+    conv2_quan2 = tf.constant(0.0625)
+    local3_quan2 = tf.constant(0.03125)
+    local4_quan2 = tf.constant(0.0625)
+    softmax_linear_quan2 = tf.constant(0.125)
     
     
-    conv1_quan = tf.constant(0.08)
-    conv2_quan = tf.constant(0.02)
-    local3_quan = tf.constant(0.02)
-    local4_quan = tf.constant(0.025)
-    softmax_linear_quan = tf.constant(0.15)
+    conv1_quan = tf.constant(0.0625)
+    conv2_quan = tf.constant(0.015625)
+    local3_quan = tf.constant(0.0078125)
+    local4_quan = tf.constant(0.03125)
+    softmax_linear_quan = tf.constant(0.0625)
+
     # sess.run(tf.Print(conv1_quan, [conv1_quan], 'conv1_quan'))
 
     for var in tf.trainable_variables():
